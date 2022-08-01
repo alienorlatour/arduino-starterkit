@@ -28,7 +28,7 @@ Learn the Arduino basics, but replace the C in the book with the Go language. Be
 
 You need Go, TinyGo and the special AVR dude.
 
-- Install Go. The latest version is not yet supported by TinyGo. Namely, I am using Go 1.17 for TinyGo 0.22.0
+- Install Go. Namely, I am using Go `1.18.1` with TinyGo `0.24.0`.
 - [Install TinyGo](https://tinygo.org/getting-started/install).
 - If you are using Unix, scroll down to
   the [AVR packages](https://tinygo.org/getting-started/install/linux/#avr-eg-arduino-uno-2) that you need for Arduino
@@ -36,9 +36,9 @@ You need Go, TinyGo and the special AVR dude.
 
 ## Projects
 
-0. 01 GET TO KNOW YOUR TOOLS an introduction to the basics
-1. [Blinky](./blinky)
-2. 02 SPACESHIP INTERFACE design the control panel for your starship
+0. 01 GET TO KNOW YOUR TOOLS an introduction to the basics - no code.
+1. [Blinky](./00-blinky)
+2. [02 SPACESHIP INTERFACE](./02-spaceship) design the control panel for your starship
 3. 03 LOVE-O-METER measure how hot-blooded you are
 4. 04 COLOR MIXING LAMP produce any color with a lamp that uses light as an input
 5. 05 MOOD CUE clue people in to how you're doing
