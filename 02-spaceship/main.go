@@ -1,11 +1,11 @@
 package main
 
 import (
-	"time"
-
 	"machine"
+	"time"
 )
 
+// blinkTime represent the time for each state of the blinking light.
 const blinkTime = time.Millisecond * 250
 
 func main() {
