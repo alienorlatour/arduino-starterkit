@@ -28,7 +28,7 @@ Learn the Arduino basics, but replace the C in the book with the Go language. Be
 
 You need Go, TinyGo and the special AVR dude.
 
-- Install Go. The latest version is not yet supported by TinyGo. Namely, I am using Go 1.17 for TinyGo 0.22.0
+- Install Go. Namely, I am using Go `1.18.1` with TinyGo `0.24.0`.
 - [Install TinyGo](https://tinygo.org/getting-started/install).
 - If you are using Unix, scroll down to
   the [AVR packages](https://tinygo.org/getting-started/install/linux/#avr-eg-arduino-uno-2) that you need for Arduino
