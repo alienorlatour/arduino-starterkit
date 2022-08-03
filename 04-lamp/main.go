@@ -52,13 +52,13 @@ type sensor struct {
 func newSensor(r, g, b machine.Pin) *sensor {
 	config := machine.ADCConfig{}
 
-	red := machine.ADC{r}
+	red := machine.ADC{Pin: r}
 	red.Configure(config)
 
-	green := machine.ADC{g}
+	green := machine.ADC{Pin: g}
 	green.Configure(config)
 
-	blue := machine.ADC{b}
+	blue := machine.ADC{Pin: b}
 	blue.Configure(config)
 
 	return &sensor{
