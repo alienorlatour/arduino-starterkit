@@ -40,7 +40,7 @@ You need Go, TinyGo and the special AVR dude.
 1. [Blinky](./00-blinky)
 2. [02 SPACESHIP INTERFACE](./02-spaceship) design the control panel for your starship
 3. 03 LOVE-O-METER measure how hot-blooded you are
-4. 04 COLOR MIXING LAMP produce any color with a lamp that uses light as an input
+4. [04 COLOR MIXING LAMP](./04-lamp) produce any color with a lamp that uses light as an input
 5. 05 MOOD CUE clue people in to how you're doing
 6. 06 LIGHT THEREMIN create a musical instrument you play by waving your hands
 7. 07 KEYBOARD INSTRUMENT play music and make some noise with this keyboard

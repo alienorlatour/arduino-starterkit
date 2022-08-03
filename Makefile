@@ -3,3 +3,6 @@ flash-00:
 
 flash-02:
 	tinygo flash -target=arduino 02-spaceship/main.go
+
+flash-04:
+	tinygo flash -target=arduino 04-lamp/main.go
