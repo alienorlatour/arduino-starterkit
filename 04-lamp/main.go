@@ -10,25 +10,27 @@ type rgbLED struct {
 	pwm           machine.PWM
 }
 
-func newRGB(r, g, b machine.Pin) *rgbLED {
+func newRGB(r, g, b machine.Pin) (*rgbLED, error) {
 	pwm := machine.Timer1
 
 	err := pwm.Configure(machine.PWMConfig{})
 	if err != nil {
-		println(err.Error())
+		return nil, err
 	}
 
 	chR, err := pwm.Channel(r)
 	if err != nil {
-		println(err.Error())
+		return nil, err
 	}
+
 	chG, err := pwm.Channel(g)
 	if err != nil {
-		println(err.Error())
+		return nil, err
 	}
+
 	chB, err := pwm.Channel(b)
 	if err != nil {
-		println(err.Error())
+		return nil, err
 	}
 
 	return &rgbLED{
@@ -36,7 +38,7 @@ func newRGB(r, g, b machine.Pin) *rgbLED {
 		gCh: chG,
 		bCh: chB,
 		pwm: pwm,
-	}
+	}, nil
 }
 
 func (r *rgbLED) SetSpectrum(red, green, blue uint32) {
@@ -76,7 +78,11 @@ func (s *sensor) ReadSpectrum() (r, g, b uint32) {
 
 func main() {
 
-	rgb := newRGB(machine.D11, machine.D9, machine.D10)
+	rgb, err := newRGB(machine.D11, machine.D9, machine.D10)
+	if err != nil {
+		println(err)
+		return
+	}
 
 	sensor := newSensor(machine.ADC0, machine.ADC1, machine.ADC3)
 
