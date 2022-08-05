@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-const blinkTime = time.Millisecond * 500
+const blinkTime = time.Millisecond * 150
 
 func main() {
 	// set built-in LED as output
