@@ -6,27 +6,27 @@ import (
 )
 
 func main() {
-	tri := newSemaphore(machine.D12, machine.D11, machine.D10)
+	vehic := newSemaphore(machine.D12, machine.D11, machine.D10)
 	pedestr := newPedestrian(machine.D7, machine.D6, machine.D5)
 
 	button := machine.D2
 	button.Configure(machine.PinConfig{Mode: machine.PinInput})
 
-	tri.green.Set(true)
+	vehic.green.Set(true)
 
 	for {
 		if button.Get() {
 			// somebody pressed the button
-			pedestr.SignalKommt(10)
+			pedestr.SignalKommt()
 
-			tri.RedGerman()
+			vehic.RedGerman()
 			pedestr.Green()
 
 			// pedestrians cross
 			time.Sleep(time.Second * 4)
 
 			pedestr.Red()
-			tri.Green()
+			vehic.Green()
 		}
 
 		time.Sleep(time.Millisecond * 25)
@@ -46,8 +46,8 @@ func newPedestrian(r, g, signal machine.Pin) Pedestrian {
 	return Pedestrian{r, g, signal}
 }
 
-func (s Pedestrian) SignalKommt(times int) {
-	for i := 0; i < times; i++ {
+func (s Pedestrian) SignalKommt() {
+	for i := 0; i < 10; i++ {
 		s.signal.Set(true)
 		time.Sleep(time.Millisecond * 250)
 
@@ -117,28 +117,3 @@ func (t *Semaphore) RedGerman() {
 	t.yellow.Set(false)
 	t.red.Set(true)
 }
-
-//
-// func (t *Semaphore) Run(passTime time.Duration) {
-// 	for {
-// 		t.yellow.Set(false)
-// 		t.red.Set(false)
-// 		t.green.Set(true)
-//
-// 		time.Sleep(passTime)
-//
-// 		t.green.Set(false)
-// 		t.yellow.Set(true)
-//
-// 		time.Sleep(time.Second)
-//
-// 		t.yellow.Set(false)
-// 		t.red.Set(true)
-//
-// 		time.Sleep(passTime)
-//
-// 		t.yellow.Set(true)
-//
-// 		time.Sleep(time.Second)
-// 	}
-// }
