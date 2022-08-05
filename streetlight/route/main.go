@@ -31,17 +31,15 @@ type semaphore struct {
 }
 
 func newSemaphore(r, y, g machine.Pin) semaphore {
-	t := semaphore{
+	r.Configure(machine.PinConfig{Mode: machine.PinOutput})
+	y.Configure(machine.PinConfig{Mode: machine.PinOutput})
+	g.Configure(machine.PinConfig{Mode: machine.PinOutput})
+
+	return semaphore{
 		red:    r,
 		yellow: y,
 		green:  g,
 	}
-
-	t.red.Configure(machine.PinConfig{Mode: machine.PinOutput})
-	t.yellow.Configure(machine.PinConfig{Mode: machine.PinOutput})
-	t.green.Configure(machine.PinConfig{Mode: machine.PinOutput})
-
-	return t
 }
 
 func (t *semaphore) Run(passTime time.Duration) {

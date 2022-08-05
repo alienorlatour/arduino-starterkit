@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	tri := newTricolor(machine.D12, machine.D11, machine.D10)
+	tri := newSemaphore(machine.D12, machine.D11, machine.D10)
 	pedestr := newPedestrian(machine.D7, machine.D6, machine.D5)
 
 	button := machine.D2
@@ -19,14 +19,14 @@ func main() {
 			// somebody pressed the button
 			pedestr.SignalKommt(10)
 
-			tri.TransRedGerman()
+			tri.RedGerman()
 			pedestr.Green()
 
 			// pedestrians cross
-			time.Sleep(time.Second * 6)
+			time.Sleep(time.Second * 4)
 
-			pedestr.TranRedFr()
-			tri.TransGreen()
+			pedestr.Red()
+			tri.Green()
 		}
 
 		time.Sleep(time.Millisecond * 25)
@@ -35,7 +35,7 @@ func main() {
 }
 
 type Pedestrian struct {
-	r, g, signal machine.Pin
+	red, green, signal machine.Pin
 }
 
 func newPedestrian(r, g, signal machine.Pin) Pedestrian {
@@ -57,47 +57,45 @@ func (s Pedestrian) SignalKommt(times int) {
 }
 
 func (s Pedestrian) Green() {
-	s.r.Set(false)
+	s.red.Set(false)
 	s.signal.Set(false)
-	s.g.Set(true)
+	s.green.Set(true)
 }
 
-func (s Pedestrian) TranRedFr() {
+func (s Pedestrian) Red() {
 	s.signal.Set(false)
 
 	// blink the green
 	for i := 0; i < 5; i++ {
-		s.g.Set(true)
+		s.green.Set(true)
 		time.Sleep(time.Millisecond * 250)
 
-		s.g.Set(false)
+		s.green.Set(false)
 		time.Sleep(time.Millisecond * 250)
 	}
 
-	s.r.Set(true)
+	s.red.Set(true)
 }
 
-func newTricolor(r, y, g machine.Pin) Tricolor {
-	t := Tricolor{
+func newSemaphore(r, y, g machine.Pin) Semaphore {
+	r.Configure(machine.PinConfig{Mode: machine.PinOutput})
+	y.Configure(machine.PinConfig{Mode: machine.PinOutput})
+	g.Configure(machine.PinConfig{Mode: machine.PinOutput})
+
+	return Semaphore{
 		red:    r,
 		yellow: y,
 		green:  g,
 	}
-
-	t.red.Configure(machine.PinConfig{Mode: machine.PinOutput})
-	t.yellow.Configure(machine.PinConfig{Mode: machine.PinOutput})
-	t.green.Configure(machine.PinConfig{Mode: machine.PinOutput})
-
-	return t
 }
 
-type Tricolor struct {
+type Semaphore struct {
 	red    machine.Pin
 	yellow machine.Pin
 	green  machine.Pin
 }
 
-func (t *Tricolor) TransGreen() {
+func (t *Semaphore) Green() {
 	t.red.Set(true)
 	t.yellow.Set(true)
 	t.green.Set(false)
@@ -109,7 +107,7 @@ func (t *Tricolor) TransGreen() {
 	t.green.Set(true)
 }
 
-func (t *Tricolor) TransRedGerman() {
+func (t *Semaphore) RedGerman() {
 	t.red.Set(false)
 	t.yellow.Set(true)
 	t.green.Set(false)
@@ -121,7 +119,7 @@ func (t *Tricolor) TransRedGerman() {
 }
 
 //
-// func (t *Tricolor) Run(passTime time.Duration) {
+// func (t *Semaphore) Run(passTime time.Duration) {
 // 	for {
 // 		t.yellow.Set(false)
 // 		t.red.Set(false)
