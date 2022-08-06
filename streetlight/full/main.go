@@ -29,7 +29,7 @@ func main() {
 			vehic.Green()
 		}
 
-		time.Sleep(time.Millisecond * 25)
+		time.Sleep(time.Millisecond * 50)
 	}
 
 }
