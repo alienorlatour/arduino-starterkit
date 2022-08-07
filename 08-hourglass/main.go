@@ -3,66 +3,50 @@ package main
 import (
 	"machine"
 	"time"
-)
 
-const interval = time.Second * 2
+	"github.com/ablqk/arduino-starterkit/08-hourglass/hourglass"
+)
 
 func main() {
 	tilt := machine.D8
 	tilt.Configure(machine.PinConfig{machine.PinInput})
 
-	leds := []machine.Pin{
-		machine.D2,
-		machine.D3,
-		machine.D4,
-		machine.D5,
-		machine.D6,
-		machine.D7,
-	}
-	for i := range leds {
-		leds[i].Configure(machine.PinConfig{Mode: machine.PinOutput})
-		leds[i].Set(true)
-		time.Sleep(time.Millisecond * 250)
-		leds[i].Set(false)
-	}
+	// control the state of the tilt switch with the built-in LED
+	tiltState := machine.D13
+	tiltState.Configure(machine.PinConfig{Mode: machine.PinOutput})
 
-	var previousTime, currentTime time.Time
-	previousTime = time.Now()
+	turn := make(chan bool)
 
-	nextLitLed := 0
-	// prevState := tilt.Get()
+	// create an hourglass
+	h := hourglass.NewHourglass(
+		[]machine.Pin{
+			machine.D2,
+			machine.D3,
+			machine.D4,
+			machine.D5,
+			machine.D6,
+			machine.D7,
+		},
+		turn,
+	)
+
+	go h.Run()
+
+	prevState := tilt.Get()
 
 	for {
-		currentTime = time.Now()
+		tiltState.Set(tilt.Get())
 
-		if currentTime.Sub(previousTime) > interval {
-			previousTime = currentTime
-			leds[nextLitLed].Set(true)
-			nextLitLed++
-
-			if nextLitLed > 6 {
-				timeOut(leds)
-			}
+		if prevState != tilt.Get() {
+			prevState = !prevState
+			turn <- prevState
 		}
 
-		// if prevState != tilt.Get() {
-		// 	// reset(leds)
-		// 	nextLitLed = 0
-		// 	prevState = !prevState
-		// }
+		time.Sleep(time.Millisecond * 25)
 	}
 
 }
 
-func timeOut(leds []machine.Pin) {
-	for {
-		for i := range leds {
-			leds[i].Set(true)
-		}
-		time.Sleep(time.Millisecond * 250)
-		for i := range leds {
-			leds[i].Set(false)
-		}
-		time.Sleep(time.Millisecond * 250)
-	}
+func timeOut() {
+
 }
